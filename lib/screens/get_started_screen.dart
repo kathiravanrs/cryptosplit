@@ -39,10 +39,13 @@ class GetStartedScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            OverviewScreen(friends: friends, groups: groups),
+            OverviewScreen(friends: friends),
             GroupsScreen(groups: groups),
             FriendsScreen(friends: friends),
-            ActivityScreen(transactions: transactions),
+            ActivityScreen(
+              transactions: transactions,
+              friends: friends,
+            ),
             const SettingsScreen(),
           ],
         ),

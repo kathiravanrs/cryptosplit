@@ -1,3 +1,4 @@
+import 'package:cryptosplit/data.dart';
 import 'package:cryptosplit/screens/transaction_history_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -33,6 +34,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
                     builder: (context) => TransactionHistoryScreen(
                       title: friend.name,
                       transactions: friend.transactions,
+                      friends: friends,
                     ),
                   ),
                 );

@@ -1,6 +1,7 @@
 import 'package:cryptosplit/screens/transaction_history_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../data.dart';
 import '../models/group.dart';
 
 class GroupsScreen extends StatefulWidget {
@@ -24,21 +25,21 @@ class _GroupsScreenState extends State<GroupsScreen> {
           } else {
             Group group = widget.groups[index - 1];
             return ListTile(
-              title: Text(group.name),
-              subtitle: Text(
-                  'Total Outstanding: ${group.transactions.fold(0.0, (sum, t) => sum + t.amount)}'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => TransactionHistoryScreen(
-                      title: group.name,
-                      transactions: group.transactions,
+                title: Text(group.name),
+                subtitle: Text(
+                    'Total Outstanding: ${group.transactions.fold(0.0, (sum, t) => sum + t.amount)}'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TransactionHistoryScreen(
+                        title: group.name,
+                        transactions: group.transactions,
+                        friends: friends,
+                      ),
                     ),
-                  ),
-                );
-              },
-            );
+                  );
+                });
           }
         },
       ),

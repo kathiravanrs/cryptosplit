@@ -1,58 +1,62 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../models/friend.dart';
-import '../models/group.dart';
 
 class OverviewScreen extends StatelessWidget {
   final List<Friend> friends;
-  final List<Group> groups;
 
-  OverviewScreen({required this.friends, required this.groups});
+  OverviewScreen({required this.friends});
+
+  double getTotalOutstandingBalance() {
+    double total = 0;
+    friends.forEach((friend) {
+      total += friend.balance;
+    });
+    return total;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List<Color> colors = [
-      Colors.red,
-      Colors.blue,
-      Colors.green,
-      Colors.orange,
-      Colors.purple
-    ];
+    double totalOutstandingBalance = getTotalOutstandingBalance();
 
-    final List<PieChartSectionData> sections = friends
-        .asMap()
-        .entries
-        .map((entry) => PieChartSectionData(
-              color: colors[entry.key % colors.length],
-              value: entry.value.balance.abs(),
-              title: entry.value.name,
-            ))
-        .toList();
-
-    return Column(
-      children: [
-        const Text(
-          'Total Outstanding',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 20),
-        SizedBox(
-          height: 300,
-          child: PieChart(
-            PieChartData(
-              sections: sections,
-              centerSpaceRadius: 80,
-              sectionsSpace: 0,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Overview'),
+      ),
+      body: Column(
+        children: [
+          SizedBox(height: 20),
+          Text(
+            'Total Outstanding Balance',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 10),
+          Text(
+            '\$${totalOutstandingBalance.toStringAsFixed(2)}',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 20),
+          Text(
+            'Individual Balances',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 10),
+          Expanded(
+            child: ListView.builder(
+              itemCount: friends.length,
+              itemBuilder: (BuildContext context, int index) {
+                Friend friend = friends[index];
+                return ListTile(
+                  title: Text(friend.name),
+                  subtitle: Text(friend.balance > 0 ? 'Owes you' : 'You owe'),
+                  trailing:
+                      Text('\$${friend.balance.abs().toStringAsFixed(2)}'),
+                );
+              },
             ),
           ),
-        ),
-        const SizedBox(height: 20),
-        const Text(
-          'Outstanding Balances',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

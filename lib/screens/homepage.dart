@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../models/friend.dart';
-import '../models/group.dart';
-import '../models/transaction.dart';
+import '../data.dart';
 import '../utils/sample_data.dart';
 import 'get_started_screen.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +35,9 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                List<Friend> friends = generateSampleFriends();
-                List<Group> groups = generateSampleGroups();
-                List<Transaction> transactions = generateSampleTransactions();
+                friends = generateSampleFriends();
+                groups = generateSampleGroups();
+                transactions = generateSampleTransactions();
 
                 Navigator.push(
                   context,
